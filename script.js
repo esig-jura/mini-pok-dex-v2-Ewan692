@@ -62,7 +62,19 @@ function displayPokemons(pokemons) {
     let result = '';
 
     for (const pokemon of pokemons) {
-        result += `<p>${pokemon.name}</p>`;
+        result += `<p>${pokemon.name} <small>`;
+
+        // Séparer les types
+        const types = pokemon.type.split(',');
+
+        // Test si le Pokémon a plusieurs types
+        if (types.length > 1) {
+            result += `${types[0]}</small> <small>${types[1]}`;
+        } else {
+            result += `${types[0]}`;
+        }
+
+        result += `</small></p>`;
     }
     pokemonList.innerHTML = result;
 }
