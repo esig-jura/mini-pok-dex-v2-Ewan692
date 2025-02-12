@@ -51,17 +51,17 @@ const pokemons = [
 const pokemonList = document.querySelector(".pokemon-container");
 
 /**
- * Fonction qui affiche une liste des noms des pokémons
+ * Fonction qui affiche la liste des noms des pokémons
  */
-function displayPokemons(pokemons) {
-    if (pokemons.length === 0) {
+function displayPokemons() {
+    if (pokemons.length < 1) {
         pokemonList.innerHTML = `<p>Dracaufeu a tout brûlé, aucun Pokémon ne correspond à ta recherche !</p>`;
         return;
     }
 
     let result = '';
 
-    for (const pokemon of pokemons) {
+    for (let pokemon of pokemons) {
         result += `<p>${pokemon.name} <small>`;
 
         // Séparer les types
@@ -73,10 +73,9 @@ function displayPokemons(pokemons) {
         } else {
             result += `${types[0]}`;
         }
-
         result += `</small></p>`;
     }
     pokemonList.innerHTML = result;
 }
 
-displayPokemons(pokemons);
+displayPokemons();
