@@ -58,24 +58,40 @@ function displayPokemons() {
         pokemonList.innerHTML = `<p>Dracaufeu a tout brûlé, aucun Pokémon ne correspond à ta recherche !</p>`;
         return;
     }
-
     let result = '';
 
     for (let pokemon of pokemons) {
-        result += `<p>${pokemon.name} <small>`;
+        result += generatePokemonCardHTML(pokemon);
+    }
+    pokemonList.innerHTML = result;
+}
 
+/**
+ * Fonction qui retourne le code HTML de la carte Pokémon pour l'objet Pokémon passé en paramètre
+ */
+function generatePokemonCardHTML(pokemon) {
+    let result = `<div class="pokemon-card" style="background: #705898;">
+        <img src="images/${pokemon.img}" alt=${pokemon.name}>
+        <h2>${pokemon.name}</h2>
+        <div>Type: `;
+
+    // Test si le pokémon possède 2 types
+    let twoTyperPokemon = pokemon.type.includes(',');
+
+    // Test si le Pokémon a plusieurs types
+    if (twoTyperPokemon) {
         // Séparer les types
         const types = pokemon.type.split(',');
 
-        // Test si le Pokémon a plusieurs types
-        if (types.length > 1) {
-            result += `${types[0]}</small> <small>${types[1]}`;
-        } else {
-            result += `${types[0]}`;
-        }
-        result += `</small></p>`;
+        result += `${types[0]} / ${types[1]}`;
+    } else {
+        result += `${pokemon.type}`;
     }
-    pokemonList.innerHTML = result;
+
+    result += `</div><div>Niveau: ${pokemon.level}</div>
+    </div>`;
+
+    return result;
 }
 
 displayPokemons();
