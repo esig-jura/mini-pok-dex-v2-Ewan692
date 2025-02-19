@@ -70,13 +70,20 @@ function displayPokemons() {
  * Fonction qui retourne le code HTML de la carte Pokémon pour l'objet Pokémon passé en paramètre
  */
 function generatePokemonCardHTML(pokemon) {
-    let result = `<div class="pokemon-card" style="background: #705898;">
-        <img src="images/${pokemon.img}" alt=${pokemon.name}>
-        <h2>${pokemon.name}</h2>
-        <div>Type: `;
+    let result = '';
 
     // Test si le pokémon possède 2 types
     let twoTyperPokemon = pokemon.type.includes(',');
+
+    // Ajout de la couleur de fond en fonction du nombre de types
+    if (twoTyperPokemon) {
+        const types = pokemon.type.split(',');
+        result += `<div class="pokemon-card" style="background: linear-gradient(to right, ${typeColors[types[0]]} 50%, ${typeColors[types[1]]} 50%);">`;
+    } else {
+        result += `<div class="pokemon-card" style="background: ${typeColors[pokemon.type]};">`;
+    }
+
+    result += `<img src="images/${pokemon.img}" alt=${pokemon.name}><h2>${pokemon.name}</h2><div>Type: `;
 
     // Test si le Pokémon a plusieurs types
     if (twoTyperPokemon) {
@@ -88,8 +95,7 @@ function generatePokemonCardHTML(pokemon) {
         result += `${pokemon.type}`;
     }
 
-    result += `</div><div>Niveau: ${pokemon.level}</div>
-    </div>`;
+    result += `</div><div>Niveau: ${pokemon.level}</div></div>`;
 
     return result;
 }
