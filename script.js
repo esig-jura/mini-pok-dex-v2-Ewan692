@@ -35,7 +35,7 @@ const pokemons = [
     { name: 'Carapuce', type: 'Eau', level: 10, img: 'carapuce.png' },
     { name: 'Rondoudou', type: 'Normal,Fée', level: 25, img: 'rondoudou.png' },
     { name: 'Ectoplasma', type: 'Spectre,Poison', level: 45, img: 'ectoplasma.png' },
-    { name: 'Évoli', type: 'Normal,Combat', level: 22, img: 'evoli.png' },
+    { name: 'Évoli', type: 'Normal', level: 22, img: 'evoli.png' },
     { name: 'Dracaufeu', type: 'Feu,Vol', level: 50, img: 'dracaufeu.png' },
     { name: 'Florizarre', type: 'Plante,Poison', level: 55, img: 'florizarre.png' },
     { name: 'Tortank', type: 'Eau', level: 52, img: 'tortank.png' },
@@ -49,18 +49,20 @@ const pokemons = [
 ];
 
 const pokemonList = document.querySelector(".pokemon-container");
+const searchBar = document.getElementById("search-bar");
+searchBar.addEventListener("input", filterAndSortPokemons);
 
 /**
  * Fonction qui affiche la liste des noms des pokémons
  */
-function displayPokemons() {
-    if (pokemons.length < 1) {
+function displayPokemons(newPokemons = pokemons) {
+    if (newPokemons.length < 1) {
         pokemonList.innerHTML = `<p>Dracaufeu a tout brûlé, aucun Pokémon ne correspond à ta recherche !</p>`;
         return;
     }
     let result = '';
 
-    for (let pokemon of pokemons) {
+    for (let pokemon of newPokemons) {
         result += generatePokemonCardHTML(pokemon);
     }
     pokemonList.innerHTML = result;
@@ -98,6 +100,19 @@ function generatePokemonCardHTML(pokemon) {
     result += `</div><div>Niveau: ${pokemon.level}</div></div>`;
 
     return result;
+}
+
+/**
+ * Fonction qui gère le filtrage des pokémons par leur nom
+ */
+function filterAndSortPokemons() {
+    // Récupère le contenu de la barre de recherche en minuscule
+    let searchValue = searchBar.value.toLowerCase();
+
+    // Retourne tous les pokémons dont le nom contient la valeur tapée dans la barre de recherche
+    let filteredPokemons = pokemons.filter(currentPokemon => currentPokemon.name.toLowerCase().includes(searchValue));
+
+    displayPokemons(filteredPokemons);
 }
 
 displayPokemons();
