@@ -50,7 +50,9 @@ const pokemons = [
 
 const pokemonList = document.querySelector(".pokemon-container");
 const searchBar = document.getElementById("search-bar");
+const typeFilter = document.getElementById("type-filter");
 searchBar.addEventListener("input", filterAndSortPokemons);
+typeFilter.addEventListener("change", filterAndSortPokemons);
 
 /**
  * Fonction qui affiche la liste des noms des pokémons
@@ -110,9 +112,14 @@ function filterAndSortPokemons() {
     let searchValue = searchBar.value.toLowerCase();
 
     // Retourne tous les pokémons dont le nom contient la valeur tapée dans la barre de recherche
-    let filteredPokemons = pokemons.filter(currentPokemon => currentPokemon.name.toLowerCase().includes(searchValue));
+    let nameFilteredPokemons = pokemons.filter(currentPokemon => currentPokemon.name.toLowerCase().includes(searchValue));
 
-    displayPokemons(filteredPokemons);
+    if (typeFilter.value !== "Tous les types") {
+        let typeFilteredPokemons = nameFilteredPokemons.filter(currentPokemon => currentPokemon.type.includes(typeFilter.value));
+        displayPokemons(typeFilteredPokemons);
+    } else {
+        displayPokemons(nameFilteredPokemons);
+    }
 }
 
 displayPokemons();
