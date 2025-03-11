@@ -51,8 +51,10 @@ const pokemons = [
 const pokemonList = document.querySelector(".pokemon-container");
 const searchBar = document.getElementById("search-bar");
 const typeFilter = document.getElementById("type-filter");
+const sortOrder = document.getElementById("sort-order");
 searchBar.addEventListener("input", filterAndSortPokemons);
 typeFilter.addEventListener("change", filterAndSortPokemons);
+sortOrder.addEventListener("change", filterAndSortPokemons);
 
 /**
  * Fonction qui affiche la liste des noms des pokémons
@@ -114,12 +116,22 @@ function filterAndSortPokemons() {
     // Retourne tous les pokémons dont le nom contient la valeur tapée dans la barre de recherche
     let nameFilteredPokemons = pokemons.filter(currentPokemon => currentPokemon.name.toLowerCase().includes(searchValue));
 
+    let typeFilteredPokemons;
     if (typeFilter.value !== "Tous les types") {
-        let typeFilteredPokemons = nameFilteredPokemons.filter(currentPokemon => currentPokemon.type.includes(typeFilter.value));
-        displayPokemons(typeFilteredPokemons);
-    } else {
-        displayPokemons(nameFilteredPokemons);
+        typeFilteredPokemons = nameFilteredPokemons.filter(currentPokemon => currentPokemon.type.includes(typeFilter.value));
     }
+
+    let sortedPokemons
+    if (sortOrder.value === "name-asc") {
+        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOrder.value === "name-desc") {
+        sortedPokemons = typeFilteredPokemons.sort((b, a) => a.name.localeCompare(b.name));
+    } else if (sortOrder.value === "level-asc") {
+        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? 1 : -1);
+    } else {
+        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? -1 : 1);
+    }
+    displayPokemons(sortedPokemons);
 }
 
 displayPokemons();
