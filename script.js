@@ -122,14 +122,19 @@ function filterAndSortPokemons() {
     }
 
     let sortedPokemons
-    if (sortOrder.value === "name-asc") {
-        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortOrder.value === "name-desc") {
-        sortedPokemons = typeFilteredPokemons.sort((b, a) => a.name.localeCompare(b.name));
-    } else if (sortOrder.value === "level-asc") {
-        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? 1 : -1);
-    } else {
-        sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? -1 : 1);
+
+    switch (sortOrder.value) {
+        case "name-asc":
+            sortedPokemons = typeFilteredPokemons.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case "name-desc":
+            sortedPokemons = typeFilteredPokemons.sort((b, a) => a.name.localeCompare(b.name));
+            break;
+        case "level-asc":
+            sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? 1 : -1);
+            break;
+        default:
+            sortedPokemons = typeFilteredPokemons.sort((a, b) => a.level > b.level ? -1 : 1);
     }
     displayPokemons(sortedPokemons);
 }
